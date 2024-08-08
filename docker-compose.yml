@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  account-manager:
+    build: ./account-manager
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: "postgresql://postgres:password@db:5432/account_manager"
+    depends_on:
+      - db
+
+  payment-manager:
+    build: ./payment-manager
+    ports:
+      - "3001:3000"
+    environment:
+      DATABASE_URL: "postgresql://postgres:password@db:5432/payment_manager"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: account_manager
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:
+Add docker-compose.yml
